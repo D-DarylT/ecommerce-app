@@ -9,6 +9,9 @@ const productCards = [
   description: "High-capacity portable power station for home and industrial use.",
   price: "$1999",
   category: "Power Stations",
+  moq: 10,
+  supplier: "Voltora Energy Inc.",
+  rating: 4.8,
   },
   {
   title: "Voltora Solar Panel X",
@@ -16,6 +19,9 @@ const productCards = [
   description: "Ultra-efficient solar panel with quantum cell technology.",
   price: "$899",
   category: "Solar Panels",
+  moq: 20,
+  supplier: "SolarX Solutions",
+  rating: 4.6,
   },
   {
   title: "Voltora Portable Station",
@@ -23,6 +29,9 @@ const productCards = [
   description: "Compact power station for travel and outdoor adventures.",
   price: "$499",
   category: "Power Stations",
+  moq: 5,
+  supplier: "Voltora Energy Inc.",
+  rating: 4.7,
   },
   {
   title: "Voltora Smart Accessory",
@@ -30,6 +39,9 @@ const productCards = [
   description: "Smart IoT accessory for energy monitoring and automation.",
   price: "$129",
   category: "Accessories",
+  moq: 50,
+  supplier: "Voltora Accessories",
+  rating: 4.5,
   },
   {
   title: "Voltora Ultra Battery",
@@ -37,6 +49,9 @@ const productCards = [
   description: "Long-life battery for grid and off-grid storage.",
   price: "$699",
   category: "Batteries",
+  moq: 15,
+  supplier: "Voltora Batteries",
+  rating: 4.9,
   },
   {
   title: "Voltora Grid Manager",
@@ -44,6 +59,9 @@ const productCards = [
   description: "AI-powered grid management system for smart cities.",
   price: "$2999",
   category: "Grid Management",
+  moq: 2,
+  supplier: "Voltora Grid Tech",
+  rating: 4.4,
   },
   {
   title: "Voltora QuantumWall Battery",
@@ -51,6 +69,9 @@ const productCards = [
   description: "Wall-mounted battery with quantum energy cells.",
   price: "$2499",
   category: "Batteries",
+  moq: 8,
+  supplier: "QuantumVolt",
+  rating: 4.8,
   },
   {
   title: "Voltora Fusion Inverter",
@@ -58,6 +79,9 @@ const productCards = [
   description: "Hybrid inverter for solar and wind integration.",
   price: "$1199",
   category: "Inverters",
+  moq: 12,
+  supplier: "FusionTech",
+  rating: 4.3,
   },
   {
   title: "Voltora Smart Home Hub",
@@ -65,6 +89,9 @@ const productCards = [
   description: "Central hub for smart home energy control.",
   price: "$399",
   category: "Smart Home",
+  moq: 25,
+  supplier: "Voltora Smart",
+  rating: 4.7,
   },
   {
   title: "Voltora Nano Panel",
@@ -72,6 +99,9 @@ const productCards = [
   description: "Nano-scale solar panel for wearables and micro devices.",
   price: "$99",
   category: "Solar Panels",
+  moq: 100,
+  supplier: "NanoVolt",
+  rating: 4.2,
   },
   {
   title: "Voltora EV Supercharger",
@@ -79,6 +109,9 @@ const productCards = [
   description: "Fast-charging station for electric vehicles.",
   price: "$3499",
   category: "EV Charging",
+  moq: 3,
+  supplier: "EVVolt",
+  rating: 4.6,
   },
   {
   title: "Voltora HydroCell Generator",
@@ -86,6 +119,9 @@ const productCards = [
   description: "Portable hydrogen fuel cell generator.",
   price: "$1599",
   category: "Generators",
+  moq: 6,
+  supplier: "HydroVolt",
+  rating: 4.5,
   },
 ];
 

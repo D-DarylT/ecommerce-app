@@ -4,54 +4,59 @@ import React, { useState } from "react";
 import { cn } from "../../lib/utils";
 
 export const Card = React.memo(
-  ({
-    card,
-    index,
-    hovered,
-    setHovered,
-  }: {
+  ({ card, index, hovered, setHovered }: {
     card: any;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-  }) => (
-    <div
-      onMouseEnter={() => setHovered(index)}
-      onMouseLeave={() => setHovered(null)}
-      className={cn(
-        "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
-        hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
-      )}
-    >
-      <img
-        src={card.src}
-        alt={card.title}
-        className="object-cover absolute inset-0"
-      />
+  }) => {
+    const isHovered = hovered === index;
+    return (
       <div
+        onMouseEnter={() => setHovered(index)}
+        onMouseLeave={() => setHovered(null)}
         className={cn(
-          "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
-          hovered === index ? "opacity-100" : "opacity-0"
+          "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out flex flex-col",
+          hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
         )}
       >
-        <div>
+        <div className={cn(
+          "absolute left-0 top-0 w-full transition-all duration-300",
+          isHovered ? "h-1/2" : "h-full"
+        )}>
+          <img
+            src={card.src}
+            alt={card.title}
+            className="object-cover w-full h-full"
+          />
+        </div>
+        <div className={cn(
+          "absolute left-0 bottom-0 w-full px-4 py-6 bg-black/70 text-white transition-all duration-300 flex flex-col justify-center",
+          isHovered ? "h-1/2 opacity-100" : "h-0 opacity-0"
+        )}>
           <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
             {card.title}
           </div>
-          {card.description && (
-            <div className="mt-2 text-sm text-neutral-200 opacity-90">
-              {card.description}
+          {card.price && (
+            <div className="mt-1 text-lg font-bold text-cyan-300">
+              Price: {card.price}
             </div>
           )}
-          {card.price && (
-            <div className="mt-2 text-lg font-bold text-cyan-300">
-              {card.price}
+          {card.moq && (
+            <div className="mt-1 text-sm text-neutral-200">MOQ: {card.moq}</div>
+          )}
+          {card.supplier && (
+            <div className="mt-1 text-sm text-neutral-200 flex items-center justify-between">
+              <span>Supplier: {card.supplier}</span>
+              {card.rating && (
+                <span className="ml-2 text-yellow-400">★ {card.rating}</span>
+              )}
             </div>
           )}
         </div>
       </div>
-    </div>
-  )
+    );
+  }
 );
 
 Card.displayName = "Card";
