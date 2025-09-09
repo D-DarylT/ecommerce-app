@@ -5,7 +5,7 @@ import { cn } from "../lib/utils";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { logout } from "../store/userSlice";
-import { FaCircleUser } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
 
 export function NavbarDemo() {
   return (
@@ -79,7 +79,7 @@ function Navbar({ className }: { className?: string }) {
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400 text-gray-900 font-bold hover:bg-cyan-300 transition-all"
                 onClick={() => setShowAccount((v) => !v)}
               >
-                <FaCircleUser className="text-2xl" />
+                <FaUserCircle className="text-2xl" />
                 {user.user?.name || "Account"}
               </button>
               {showAccount && (

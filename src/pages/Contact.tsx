@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { FaEnvelope, FaPhone, FaLocationDot, FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const typewriterText = 'Contact Us';
@@ -28,7 +28,7 @@ const Contact: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-cyan-300"><FaEnvelope className="text-xl" /> support@voltora.com</div>
               <div className="flex items-center gap-3 text-cyan-300"><FaPhone className="text-xl" /> +1 (800) 555-0199</div>
-              <div className="flex items-center gap-3 text-cyan-300"><FaLocationDot className="text-xl" /> 123 Future Ave, Silicon City, USA</div>
+              <div className="flex items-center gap-3 text-cyan-300"><FaMapMarkerAlt className="text-xl" /> 123 Future Ave, Silicon City, USA</div>
             </div>
           </div>
           <div className="mt-10 flex gap-5">

@@ -171,7 +171,7 @@ function RegistrationModal({ open, onClose, role }: { open: boolean; onClose: ()
               className="absolute top-4 right-4 text-cyan-400 hover:text-fuchsia-400 text-2xl font-bold focus:outline-none"
               aria-label="Close"
             >
-              ×
+              
             </button>
           </div>
         </div>
