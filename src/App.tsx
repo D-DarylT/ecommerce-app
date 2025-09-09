@@ -11,15 +11,17 @@ function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<div className="text-center py-20">Loading...</div>}>
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col relative overflow-hidden font-sans">
-          <BackgroundBeams />
-          <Navbar />
-          <main className="flex-1 relative z-10">
-            <AppRoutes />
-          </main>
-          <Footer />
-          <Chatbot />
-        </div>
+    <div className="min-h-screen w-full bg-neutral-950 text-white flex flex-col relative overflow-hidden font-sans">
+      <BackgroundBeams />
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-1">
+          <AppRoutes />
+        </main>
+        <Footer />
+        <Chatbot />
+      </div>
+    </div>
       </Suspense>
     </BrowserRouter>
   );

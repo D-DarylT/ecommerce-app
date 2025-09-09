@@ -26,9 +26,9 @@ const Contact: React.FC = () => {
             <h2 className="text-4xl font-extrabold mb-4 text-cyan-400 tracking-tight">{displayed}</h2>
             <p className="text-cyan-200 mb-8 text-lg">We'd love to hear from you. Reach out for product inquiries, support, or partnership opportunities.</p>
             <div className="space-y-4">
-              <div className="flex items-center gap-3 text-cyan-300"><FaEnvelope className="text-xl" /> support@voltora.com</div>
-              <div className="flex items-center gap-3 text-cyan-300"><FaPhone className="text-xl" /> +1 (800) 555-0199</div>
-              <div className="flex items-center gap-3 text-cyan-300"><FaMapMarkerAlt className="text-xl" /> 123 Future Ave, Silicon City, USA</div>
+              <div className="flex items-center gap-3 text-cyan-300"><span className="text-xl">📧</span> support@voltora.com</div>
+              <div className="flex items-center gap-3 text-cyan-300"><span className="text-xl">📞</span> +1 (800) 555-0199</div>
+              <div className="flex items-center gap-3 text-cyan-300"><span className="text-xl">📍</span> 123 Future Ave, Silicon City, USA</div>  
             </div>
           </div>
           <div className="mt-10 flex gap-5">

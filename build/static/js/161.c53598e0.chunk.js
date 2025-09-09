@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkvoltora=self.webpackChunkvoltora||[]).push([[161],{7161:(e,a,s)=>{s.r(a),s.d(a,{default:()=>t});s(5043);var l=s(579);const t=()=>(0,l.jsx)("div",{className:"fixed inset-0 z-10 pointer-events-none",children:(0,l.jsx)("div",{className:"w-full h-full bg-gradient-to-br from-cyan-900 via-purple-600 to-gray-900 opacity-60 animate-pulse"})})}}]);
+//# sourceMappingURL=161.c53598e0.chunk.js.map

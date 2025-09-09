@@ -29,8 +29,32 @@ function Navbar({ className }: { className?: string }) {
   // Simulate registration state (in real app, use user state)
   const [registered, setRegistered] = useState(false);
 
+  // Hide navbar on scroll down, show on scroll up
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setShowNavbar(false);
+      } else {
+        setShowNavbar(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <div className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}>
+    <div
+      className={cn(
+        "fixed top-10 inset-x-0 max-w-2xl mx-auto z-50 transition-transform duration-300",
+        showNavbar ? "translate-y-0 opacity-100" : "-translate-y-32 opacity-0",
+        className
+      )}
+    >
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="Home">
           <div className="flex flex-col space-y-4 text-sm">
