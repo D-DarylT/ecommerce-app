@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { World } from '../components/ui/globe';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
@@ -18,8 +19,15 @@ const Contact: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 py-12">
-      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="w-full max-w-5xl bg-glass rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 py-12 relative overflow-hidden">
+      {/* Globe above all content with reduced opacity */}
+      <div className="fixed inset-0 w-full h-full z-50 pointer-events-none flex items-center justify-center" style={{ opacity: 0.25 }}>
+        <World
+          globeConfig={{ autoRotate: true, autoRotateSpeed: 0.5, showAtmosphere: true, atmosphereColor: '#38bdf8', globeColor: '#062056' }}
+          data={[]}
+        />
+      </div>
+      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="w-full max-w-5xl bg-glass rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden relative">
         {/* Left: Company Info */}
         <div className="md:w-1/2 p-8 bg-gradient-to-b from-gray-900/90 to-cyan-950/80 flex flex-col justify-between">
           <div>

@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
+import { useDispatch } from 'react-redux';
+
+declare global {
+  interface Window {
+    store?: {
+      dispatch?: (action: any) => void;
+    };
+  }
+}
 
 const buyerFields = [
   {
@@ -72,6 +81,7 @@ function RegistrationForm({ role }: { role: "buyer" | "supplier" }) {
   const fields = role === "buyer" ? buyerFields : supplierFields;
   const [form, setForm] = useState<any>({});
   const [submitted, setSubmitted] = useState(false);
+  const dispatch = useDispatch();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -80,7 +90,18 @@ function RegistrationForm({ role }: { role: "buyer" | "supplier" }) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitted(true);
-    // TODO: handle registration logic
+    // Demo: authenticate user after registration
+    if (form.email && form.fullName) {
+      dispatch({
+        type: 'user/login',
+        payload: {
+          id: Date.now().toString(),
+          name: form.fullName,
+          email: form.email,
+          role: role,
+        },
+      });
+    }
   }
 
   return (

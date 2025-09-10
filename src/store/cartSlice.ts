@@ -9,8 +9,9 @@ interface CartState {
   items: CartItem[];
 }
 
+const persistedCart = localStorage.getItem('cart');
 const initialState: CartState = {
-  items: [],
+  items: persistedCart ? JSON.parse(persistedCart) : [],
 };
 
 const cartSlice = createSlice({
@@ -19,12 +20,15 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<CartItem>) {
       state.items.push(action.payload);
+      localStorage.setItem('cart', JSON.stringify(state.items));
     },
     removeFromCart(state, action: PayloadAction<string>) {
       state.items = state.items.filter(item => item.productId !== action.payload);
+      localStorage.setItem('cart', JSON.stringify(state.items));
     },
     clearCart(state) {
       state.items = [];
+      localStorage.setItem('cart', JSON.stringify(state.items));
     },
   },
 });

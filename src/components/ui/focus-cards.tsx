@@ -21,16 +21,21 @@ export const Card = React.memo(
     const isWishlisted = wishlist.some((item: any) => item.productId === card.id);
 
     const handleAddToWishlist = () => {
-      dispatch({ type: 'wishlist/addToWishlist', payload: { productId: card.id } });
+      if (!isWishlisted) {
+        dispatch({ type: 'wishlist/addToWishlist', payload: { productId: card.id } });
+      }
     };
     const handleAddToCart = () => {
       setShowModal(true);
+      setQuantity(1);
     };
     const handleConfirmAddToCart = () => {
-      dispatch({ type: 'cart/addToCart', payload: { productId: card.id, quantity } });
-      setShowModal(false);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2000);
+      if (quantity > 0) {
+        dispatch({ type: 'cart/addToCart', payload: { productId: card.id, quantity } });
+        setShowModal(false);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+      }
     };
     return (
       <div
@@ -100,19 +105,23 @@ export const Card = React.memo(
         {/* Modal for quantity input */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-xl p-6 shadow-lg w-80 flex flex-col items-center">
+            <div className="bg-white rounded-xl p-6 shadow-lg w-80 flex flex-col items-center animate-fade-in">
               <h4 className="text-lg font-bold mb-4 text-cyan-700">Add to Cart</h4>
               <label className="mb-2 text-gray-700">Quantity:</label>
               <input
                 type="number"
                 min={1}
                 value={quantity}
-                onChange={e => setQuantity(Number(e.target.value))}
-                className="w-20 p-2 border border-cyan-400 rounded mb-4 text-center"
+                onChange={e => {
+                  const val = Number(e.target.value);
+                  if (val > 0) setQuantity(val);
+                }}
+                className="w-20 p-2 border border-cyan-400 rounded mb-4 text-center focus:outline-none focus:ring-2 focus:ring-cyan-400"
               />
               <button
-                className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded shadow"
+                className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded shadow w-full mt-2 disabled:opacity-50"
                 onClick={handleConfirmAddToCart}
+                disabled={quantity < 1}
               >
                 Add to Cart
               </button>

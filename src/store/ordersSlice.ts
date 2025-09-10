@@ -12,8 +12,9 @@ interface OrdersState {
   orders: Order[];
 }
 
+const persistedOrders = localStorage.getItem('orders');
 const initialState: OrdersState = {
-  orders: [],
+  orders: persistedOrders ? JSON.parse(persistedOrders) : [],
 };
 
 const ordersSlice = createSlice({
@@ -22,9 +23,11 @@ const ordersSlice = createSlice({
   reducers: {
     setOrders(state, action: PayloadAction<Order[]>) {
       state.orders = action.payload;
+      localStorage.setItem('orders', JSON.stringify(state.orders));
     },
     addOrder(state, action: PayloadAction<Order>) {
       state.orders.push(action.payload);
+      localStorage.setItem('orders', JSON.stringify(state.orders));
     },
   },
 });

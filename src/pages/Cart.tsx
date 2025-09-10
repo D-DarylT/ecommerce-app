@@ -1,5 +1,7 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 const initialCart = [
   { id: 1, name: 'Voltora Power Station 5000', price: 1999 },
@@ -9,55 +11,101 @@ const initialCart = [
 const Cart: React.FC = () => {
   const [cart, setCart] = useState(initialCart);
   const [step, setStep] = useState<'cart' | 'checkout' | 'payment' | 'confirmed' | 'shipped'>('cart');
-  const [orderId, setOrderId] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<string>('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
+  const [checkoutName, setCheckoutName] = useState(user?.name || '');
+  const [checkoutEmail, setCheckoutEmail] = useState(user?.email || '');
+  const [checkoutAddress, setCheckoutAddress] = useState('');
+  const [paymentMobile, setPaymentMobile] = useState('');
+  const [checkoutError, setCheckoutError] = useState('');
+  const [paymentError, setPaymentError] = useState('');
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-      <h2 className="text-3xl font-semibold mb-6 text-cyan-400">Shopping Cart</h2>
-      {step === 'cart' && (
-        <div className="bg-glass rounded-2xl p-6 shadow-lg mb-8 w-full max-w-lg">
-          {cart.length === 0 ? (
-            <p className="text-cyan-300">Your cart is empty.</p>
-          ) : (
-            <>
-              <ul className="mb-4">
-                {cart.map(item => (
-                  <li key={item.id} className="flex justify-between py-2 border-b border-cyan-800">
-                    <span>{item.name}</span>
-                    <span className="font-bold">${item.price}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="flex justify-between font-bold text-lg mb-4">
-                <span>Total:</span>
-                <span>${total}</span>
-              </div>
-              <button className="px-6 py-2 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors w-full" onClick={() => setStep('checkout')}>
-                Proceed to Checkout
-              </button>
-            </>
-          )}
-        </div>
-      )}
+      {/* Add ARIA labels and improve semantic HTML for accessibility */}
+      <h2 className="text-3xl font-semibold mb-6 text-cyan-400" aria-label="Shopping Cart Heading">Shopping Cart</h2>
+      <div className="bg-glass rounded-2xl p-6 shadow-lg mb-8 w-full max-w-lg">
+        {cart.length === 0 ? (
+          <p className="text-cyan-300">Your cart is empty.</p>
+        ) : (
+          <React.Fragment>
+            <ul className="mb-4">
+              {cart.map(item => (
+                <li key={item.id} className="flex justify-between py-2 border-b border-cyan-800">
+                  <span>{item.name}</span>
+                  <span className="font-bold">${item.price}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex justify-between font-bold text-lg mb-4">
+              <span>Total:</span>
+              <span>${total}</span>
+            </div>
+            <button className="px-6 py-2 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors w-full" onClick={() => setStep('checkout')}>
+              Proceed to Checkout
+            </button>
+          </React.Fragment>
+        )}
+      </div>
+      {/* Checkout Form */}
       {step === 'checkout' && (
         <div className="bg-glass rounded-2xl p-6 shadow-lg w-full max-w-lg">
           <h3 className="text-xl font-bold text-cyan-400 mb-4">Checkout</h3>
-          <form className="flex flex-col gap-4" onSubmit={e => {e.preventDefault(); setOrderId('ORD123456'); setStep('payment');}}>
-            <input type="text" placeholder="Name" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" />
-            <input type="email" placeholder="Email" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" />
-            <input type="text" placeholder="Address" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" />
+          <form className="flex flex-col gap-4" aria-label="Checkout Form" onSubmit={e => {
+            e.preventDefault();
+            setCheckoutError('');
+            if (!checkoutName || !checkoutEmail || !checkoutAddress) {
+              setCheckoutError('Please fill in all required fields.');
+              return;
+            }
+            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(checkoutEmail)) {
+              setCheckoutError('Please enter a valid email address.');
+              return;
+            }
+            const newOrderId = 'ORD' + Date.now();
+            setOrderId(newOrderId);
+            if (dispatch && user) {
+              dispatch({
+                type: 'orders/addOrder',
+                payload: {
+                  id: newOrderId,
+                  userId: user.id,
+                  items: cart.map(item => ({ productId: item.id, quantity: 1 })),
+                  status: 'pending',
+                  createdAt: new Date().toISOString(),
+                },
+              });
+            }
+            setStep('payment');
+          }}>
+            <input type="text" placeholder="Name" aria-label="Full Name" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" value={checkoutName} onChange={e => setCheckoutName(e.target.value)} />
+            <input type="email" placeholder="Email" aria-label="Email Address" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" value={checkoutEmail} onChange={e => setCheckoutEmail(e.target.value)} />
+            <input type="text" placeholder="Address" aria-label="Shipping Address" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" value={checkoutAddress} onChange={e => setCheckoutAddress(e.target.value)} />
+            {checkoutError && <div className="text-red-400 text-sm">{checkoutError}</div>}
             <button className="px-6 py-2 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors">Create Order</button>
           </form>
         </div>
       )}
+      {/* Payment Form */}
       {step === 'payment' && (
         <div className="bg-glass rounded-2xl p-6 shadow-lg w-full max-w-lg">
           <h3 className="text-xl font-bold text-cyan-400 mb-4">Mobile Money Payment</h3>
           <p className="mb-4 text-cyan-200">Order ID: <span className="font-bold">{orderId}</span></p>
-          <form className="flex flex-col gap-4" onSubmit={e => {e.preventDefault(); setStep('confirmed');}}>
-            <input type="text" placeholder="Mobile Money Number" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" />
+          <form className="flex flex-col gap-4" aria-label="Payment Form" onSubmit={e => {
+            e.preventDefault();
+            setPaymentError('');
+            if (!paymentMobile || !/^\d{10,15}$/.test(paymentMobile)) {
+              setPaymentError('Please enter a valid mobile number (10-15 digits).');
+              return;
+            }
+            setStep('confirmed');
+          }}>
+            <input type="text" placeholder="Mobile Money Number" aria-label="Mobile Money Number" required className="px-4 py-2 rounded bg-gray-900 text-cyan-300 border border-cyan-400 focus:outline-none" value={paymentMobile} onChange={e => setPaymentMobile(e.target.value)} />
+            {paymentError && <div className="text-red-400 text-sm">{paymentError}</div>}
             <button className="px-6 py-2 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors">Pay Now</button>
           </form>
         </div>

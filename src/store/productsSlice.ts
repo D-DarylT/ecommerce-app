@@ -1,3 +1,23 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+// Async thunk for fetching products
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async (_, thunkAPI) => {
+  try {
+    // Simulate API call
+    const response = await new Promise<{ data: Product[] }>((resolve) =>
+      setTimeout(() => resolve({ data: initialState.items }), 500)
+    );
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to fetch products');
+  }
+});
+import { createSelector } from 'reselect';
+// Memoized selector for products
+export const selectProducts = (state: { products: ProductsState }) => state.products.items;
+export const selectProductsMemoized = createSelector(
+  [selectProducts],
+  (items) => items
+);
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Product {
@@ -57,6 +77,21 @@ const productsSlice = createSlice({
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 

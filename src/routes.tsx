@@ -25,6 +25,7 @@ const AppRoutes = () => (
   <React.Suspense fallback={<div>Loading...</div>}>
     <Routes>
       <Route path="/" element={<Home />} />
+  <Route path="/home" element={<Home />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/product/:id" element={<ProductDetail />} />

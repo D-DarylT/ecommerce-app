@@ -21,9 +21,48 @@ const ProductDetail: React.FC = () => (
       <h4 className="text-lg font-bold text-magenta mb-2">Customer Reviews</h4>
       <div className="bg-glass rounded p-4 mb-2 text-white">Amazing product! - Alice</div>
       <div className="bg-glass rounded p-4 mb-2 text-white">Very efficient and reliable. - Bob</div>
-      {/* TODO: Add comments section */}
+      {/* Comments section */}
+      <CommentsSection />
     </div>
   </div>
 );
+
+// CommentsSection component for user-generated reviews
+const CommentsSection: React.FC = () => {
+  const [comments, setComments] = React.useState<string[]>([]);
+  const [input, setInput] = React.useState("");
+
+  const handleAddComment = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim()) {
+      setComments([input, ...comments]);
+      setInput("");
+    }
+  };
+
+  return (
+    <div className="mt-4">
+      <form onSubmit={handleAddComment} className="flex gap-2 mb-4">
+        <input
+          type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="Add your review..."
+          className="px-4 py-2 rounded bg-gray-900 text-white border border-magenta focus:outline-none w-full"
+        />
+        <button type="submit" className="px-4 py-2 rounded bg-magenta text-white font-bold">Post</button>
+      </form>
+      <div className="space-y-2">
+        {comments.length === 0 ? (
+          <div className="text-neutral-400">No reviews yet. Be the first to comment!</div>
+        ) : (
+          comments.map((c, i) => (
+            <div key={i} className="bg-glass rounded p-3 text-white">{c}</div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default ProductDetail;

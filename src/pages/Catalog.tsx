@@ -140,21 +140,35 @@ const categories = [
 
 const Catalog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const filteredCards =
-    selectedCategory === "All Categories"
-      ? productCards
-      : productCards.filter((card) => card.category === selectedCategory);
+  React.useEffect(() => {
+    const handler = setTimeout(() => setDebouncedSearch(searchTerm), 300);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  const filteredCards = productCards.filter((card) => {
+    const matchesCategory = selectedCategory === "All Categories" || card.category === selectedCategory;
+    const matchesSearch = card.title.toLowerCase().includes(debouncedSearch.toLowerCase()) || card.description.toLowerCase().includes(debouncedSearch.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
       <h2 className="text-3xl font-semibold mb-6">Product Catalog</h2>
       <div className="flex gap-4 mb-8">
-        <input type="text" placeholder="Search products..." className="px-4 py-2 rounded bg-gray-900 text-white border border-cyan-400 focus:outline-none" />
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="px-4 py-2 rounded bg-gray-900 text-white border border-cyan-400 focus:outline-none"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
         <select
           className="px-4 py-2 rounded bg-gray-900 text-white border border-magenta focus:outline-none"
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          onChange={e => setSelectedCategory(e.target.value)}
         >
           {categories.map((cat) => (
             <option key={cat}>{cat}</option>

@@ -8,8 +8,9 @@ interface WishlistState {
   items: WishlistItem[];
 }
 
+const persistedWishlist = localStorage.getItem('wishlist');
 const initialState: WishlistState = {
-  items: [],
+  items: persistedWishlist ? JSON.parse(persistedWishlist) : [],
 };
 
 const wishlistSlice = createSlice({
@@ -19,13 +20,16 @@ const wishlistSlice = createSlice({
     addToWishlist(state, action: PayloadAction<WishlistItem>) {
       if (!state.items.find(item => item.productId === action.payload.productId)) {
         state.items.push(action.payload);
+        localStorage.setItem('wishlist', JSON.stringify(state.items));
       }
     },
     removeFromWishlist(state, action: PayloadAction<string>) {
       state.items = state.items.filter(item => item.productId !== action.payload);
+      localStorage.setItem('wishlist', JSON.stringify(state.items));
     },
     clearWishlist(state) {
       state.items = [];
+      localStorage.setItem('wishlist', JSON.stringify(state.items));
     },
   },
 });
