@@ -20,6 +20,7 @@ const NAV_LINKS = [
 
 const NavbarMenu = () => {
   const user = useSelector((state: RootState) => state.user);
+  const cart = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
   return (
     <header className="w-full flex justify-center">
@@ -40,10 +41,14 @@ const NavbarMenu = () => {
           ))}
           {/* Cart icon with badge */}
           <div className="relative ml-4">
-            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-cyan-400">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 0 0 6.6 17h10.8a1 1 0 0 0 .95-.68L21 13M7 13V6h13" />
-            </svg>
-            <span className="absolute -top-2 -right-2 bg-fuchsia-500 text-xs text-white rounded-full px-1.5 py-0.5">2</span>
+            <a href="/cart">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-cyan-400">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 0 0 6.6 17h10.8a1 1 0 0 0 .95-.68L21 13M7 13V6h13" />
+              </svg>
+              <span className="absolute -top-2 -right-2 bg-fuchsia-500 text-xs text-white rounded-full px-1.5 py-0.5">
+                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+              </span>
+            </a>
           </div>
           {/* Login/User icon logic */}
           {!user.isAuthenticated ? (

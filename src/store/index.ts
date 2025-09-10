@@ -4,14 +4,16 @@ import cartReducer from './cartSlice';
 import userReducer from './userSlice';
 import ordersReducer from './ordersSlice';
 import uiReducer from './uiSlice';
+import wishlistReducer from './wishlistSlice';
 
 export const store = configureStore({
   reducer: {
-    products: productsReducer,
-    cart: cartReducer,
-    user: userReducer,
-    orders: ordersReducer,
-    ui: uiReducer,
+  products: productsReducer,
+  cart: cartReducer,
+  user: userReducer,
+  orders: ordersReducer,
+  ui: uiReducer,
+  wishlist: wishlistReducer,
   },
 });
 

@@ -20,17 +20,6 @@ import { logout } from "../store/userSlice";
 import { FaUserCircle } from "react-icons/fa";
 import LoginModal from "./LoginModal";
 
-export function NavbarDemo() {
-  return (
-    <div className="relative w-full flex items-center justify-center">
-      <Navbar className="top-2" />
-      <p className="text-black dark:text-white">
-        The Navbar will show on top of the page
-      </p>
-    </div>
-  );
-}
-
 function Navbar({ className }: { className?: string }) {
   const user = useSelector((state: RootState) => state.user);
   const [isHovered, setIsHovered] = useState(false);
@@ -38,49 +27,47 @@ function Navbar({ className }: { className?: string }) {
   const dockLinks: { title: string; icon: React.ReactNode; href: string }[] = [
     {
       title: "Home",
-      icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      icon: <IconHome className="h-full w-full text-cyan-600 dark:text-cyan-300" />,
       href: "/home",
     },
     {
       title: "Products",
-      icon: <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      icon: <IconTerminal2 className="h-full w-full text-purple-600 dark:text-purple-300" />,
       href: "/catalog",
     },
     ...(user.isAuthenticated && user.user?.role === 'buyer'
       ? [{
           title: "Buyer Dashboard",
-          icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+          icon: <IconNewSection className="h-full w-full text-green-600 dark:text-green-300" />,
           href: "/buyer-dashboard",
         }]
       : []),
     ...(user.isAuthenticated && ['supplier', 'admin'].includes(user.user?.role as string)
       ? [{
           title: "Supplier/Admin Dashboard",
-          icon: <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+          icon: <IconNewSection className="h-full w-full text-yellow-600 dark:text-yellow-300" />,
           href: "/supplier-dashboard",
         }]
       : []),
     {
       title: "About",
-      icon: <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      icon: <IconExchange className="h-full w-full text-blue-600 dark:text-blue-300" />,
       href: "/about",
     },
     {
       title: "Cart",
-      icon: <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      icon: <IconBrandX className="h-full w-full text-pink-600 dark:text-pink-300" />,
       href: "/cart",
     },
     {
       title: "Checkout",
-      icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      icon: <IconBrandGithub className="h-full w-full text-gray-800 dark:text-gray-200" />,
       href: "/checkout",
     },
   ];
 
   // Loader state (simulate loading for demo)
   const [loading, setLoading] = useState(false);
-
-  // Show loader for 2 seconds on mount (demo)
   React.useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 1200);
@@ -107,6 +94,17 @@ function Navbar({ className }: { className?: string }) {
       {/* Example: Use isHovered to control dropdowns, highlights, etc. */}
       {/* {isHovered && <div className="absolute top-full left-0 w-full bg-cyan-900">Hovered!</div>} */}
     </nav>
+  );
+}
+
+export function NavbarDemo() {
+  return (
+    <div className="relative w-full flex items-center justify-center">
+      <Navbar className="top-2" />
+      <p className="text-black dark:text-white">
+        The Navbar will show on top of the page
+      </p>
+    </div>
   );
 }
 

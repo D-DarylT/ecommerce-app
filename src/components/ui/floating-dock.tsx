@@ -167,22 +167,14 @@ const FloatingDockDesktop = ({
   items: { title: string; icon: React.ReactNode; href: string }[];
   className?: string;
 }) => {
-  // Track mouse position globally for magnetic effect
+  // Track mouse position only when hovering over dock
   const mouseY = useMotionValue(Infinity);
   const dockRef = useRef<HTMLDivElement>(null);
-
-  // Listen for mousemove on window for full magnetic effect
-  React.useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
-  }, [mouseY]);
 
   return (
     <motion.div
       ref={dockRef}
+      onMouseMove={e => mouseY.set(e.clientY)}
       onMouseLeave={() => mouseY.set(Infinity)}
       className={cn(
         "fixed top-1/2 left-4 z-50 -translate-y-1/2 flex-col items-center gap-y-4 rounded-2xl bg-gray-50 px-2 py-4 hidden md:flex dark:bg-neutral-900 shadow-lg",

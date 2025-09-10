@@ -30,8 +30,15 @@ const About: React.FC = () => (
         </ul>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-full h-56 md:h-64 bg-gradient-to-br from-cyan-400/60 to-magenta/60 rounded-xl flex items-center justify-center shadow-lg">
-          <span className="text-cyan-100 text-lg font-bold">[World Map Visualization]</span>
+        <div className="w-full h-56 md:h-64 rounded-xl flex items-center justify-center shadow-lg">
+          {/* Interactive Globe Visualization */}
+          <React.Suspense fallback={<div className="text-cyan-200">Loading globe...</div>}>
+            {typeof window !== "undefined" && (
+              <>
+                {require('../components/about-globe-demo').GlobeDemo()}
+              </>
+            )}
+          </React.Suspense>
         </div>
       </div>
     </motion.div>

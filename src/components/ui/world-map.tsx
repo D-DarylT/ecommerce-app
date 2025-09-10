@@ -20,13 +20,13 @@ export default function WorldMap({
   lineColor = "#0ea5e9",
 }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-    // const map = new DottedMap({ height: 100, grid: "diagonal" }); // Removed: DottedMap not available
-    const map = { getSVG: () => "" }; // Placeholder for map logic
+  // Use DottedMap to generate the dotted world map SVG
+  // @ts-ignore
+  const DottedMap = require("dotted-map");
+  const map = new DottedMap.default({ height: 100, grid: "diagonal" });
+  const svgMap = map.getSVG({ color: "#000", radius: 1.2 });
 
   const { theme } = useTheme();
-    // const { theme } = useTheme(); // Removed: useTheme not available
-
-  const svgMap = map.getSVG();
 
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);

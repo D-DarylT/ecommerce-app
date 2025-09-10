@@ -73,36 +73,18 @@ export function GlobeDemo() {
     { order: 14, startLat: -33.936138, startLng: 18.436529, endLat: 21.395643, endLng: 39.883798, arcAlt: 0.3, color: colors[Math.floor(Math.random() * (colors.length - 1))] },
   ];
 
+  // Prepare dots data for WorldMap
+  const dots = sampleArcs.map(arc => ({
+    start: { lat: arc.startLat, lng: arc.startLng },
+    end: { lat: arc.endLat, lng: arc.endLng }
+  }));
+
+  // Import WorldMap dynamically or directly
+  const WorldMap = require("./ui/world-map").default;
+
   return (
-    <div className="flex flex-row items-center justify-center py-20 h-screen md:h-auto dark:bg-black bg-white relative w-full">
-      <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-full md:h-[40rem] px-4">
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 1,
-          }}
-          className="div"
-        >
-          <h2 className="text-center text-xl md:text-4xl font-bold text-black dark:text-white">
-            We sell soap worldwide
-          </h2>
-          <p className="text-center text-base md:text-lg font-normal text-neutral-700 dark:text-neutral-200 max-w-md mt-2 mx-auto">
-            This globe is interactive and customizable. Have fun with it, and
-            don&apos;t forget to share it. :)
-          </p>
-        </motion.div>
-        <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
-        <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
-          <World data={sampleArcs} globeConfig={globeConfig} />
-        </div>
-      </div>
+    <div className="w-full h-full flex items-center justify-center">
+      <WorldMap dots={dots} lineColor="#06b6d4" />
     </div>
   );
 }
